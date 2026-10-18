@@ -1,0 +1,72 @@
+int main() {
+    // Restore saved data before showing the menu
+    loadParkedVehicles();
+    loadWaitingQueue();
+    loadHistory();
+
+    cout << "Saved parking data loaded successfully.\n";
+
+    int choice;
+
+    do {
+        cout << "\n=== SMART PARKING SYSTEM ===\n";
+        cout << "1. Vehicle Entry\n";
+        cout << "2. Vehicle Exit and Bill\n";
+        cout << "3. Show Parking Slots\n";
+        cout << "4. Show Parked Vehicles\n";
+        cout << "5. Show Waiting Queue\n";
+        cout << "6. Search Vehicle\n";
+        cout << "7. Parking History\n";
+        cout << "8. Sort History by Fee\n";
+        cout << "0. Exit\n";
+        cout << "Enter choice: ";
+
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                vehicleEntry();
+                break;
+
+            case 2:
+                vehicleExit();
+                break;
+
+            case 3:
+                showSlots();
+                break;
+
+            case 4:
+                parked.display();
+                break;
+
+            case 5:
+                waiting.display();
+                break;
+
+            case 6:
+                searchVehicle();
+                break;
+
+            case 7:
+                showHistory();
+                break;
+
+            case 8:
+                sortHistory();
+                break;
+
+            case 0:
+                saveAllData();
+                cout << "Data saved successfully.\n";
+                cout << "Thank you!\n";
+                break;
+
+            default:
+                cout << "Invalid choice!\n";
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
