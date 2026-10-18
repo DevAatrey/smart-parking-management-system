@@ -1,0 +1,197 @@
+// ==========================================
+// FILE HANDLING: SAVE PARKED VEHICLES
+// ==========================================
+
+void saveParkedVehicles() {
+    ofstream file("parked.txt");
+
+    if (!file) {
+        cout << "Error saving parked vehicles!\n";
+        return;
+    }
+
+    Node* temp = parked.head;
+
+    while (temp != NULL) {
+        file << temp->v.number << " "
+             << temp->v.owner << " "
+             << temp->v.type << " "
+             << temp->v.slot << " "
+             << temp->v.entry << endl;
+
+        temp = temp->next;
+    }
+
+    file.close();
+}
+
+
+// ==========================================
+// FILE HANDLING: SAVE WAITING QUEUE
+// ==========================================
+
+void saveWaitingQueue() {
+    ofstream file("waiting.txt");
+
+    if (!file) {
+        cout << "Error saving waiting queue!\n";
+        return;
+    }
+
+    for (int i = 0; i < waiting.count; i++) {
+        file << waiting.q[i].number << " "
+             << waiting.q[i].owner << " "
+             << waiting.q[i].type << " "
+             << waiting.q[i].entry << endl;
+    }
+
+    file.close();
+}
+
+
+// ==========================================
+// FILE HANDLING: SAVE PARKING HISTORY
+// ==========================================
+
+void saveHistory() {
+    ofstream file("history.txt");
+
+    if (!file) {
+        cout << "Error saving parking history!\n";
+        return;
+    }
+
+    for (int i = 0; i < historyCount; i++) {
+        file << history[i].number << " "
+             << history[i].fee << " "
+             << history[i].duration << endl;
+    }
+
+    file.close();
+}
+
+
+// ==========================================
+// SAVE ALL SYSTEM DATA
+// ==========================================
+
+void saveAllData() {
+    saveParkedVehicles();
+    saveWaitingQueue();
+    saveHistory();
+}
+
+
+// ==========================================
+// FILE HANDLING: LOAD PARKED VEHICLES
+// ==========================================
+
+void loadParkedVehicles() {
+    ifstream file("parked.txt");
+
+    if (!file)
+        return;
+
+    Vehicle v;
+
+    while (file >> v.number
+                >> v.owner
+                >> v.type
+                >> v.slot
+                >> v.entry) {
+
+        // Validate vehicle type
+        if (v.type < 0 || v.type > 2)
+            continue;
+
+        // Validate parking slot
+        if (v.slot < 0 || v.slot >= SLOTS)
+            continue;
+
+        // Prevent duplicate vehicles
+        if (parked.search(v.number) != NULL)
+            continue;
+
+        // Prevent duplicate occupied slots
+        if (occupied[v.slot])
+            continue;
+
+        occupied[v.slot] = true;
+        parked.insert(v);
+    }
+
+    file.close();
+}
+
+
+// ==========================================
+// FILE HANDLING: LOAD WAITING QUEUE
+// ==========================================
+
+void loadWaitingQueue() {
+    ifstream file("waiting.txt");
+
+    if (!file)
+        return;
+
+    Vehicle v;
+    v.slot = -1;
+
+    while (file >> v.number
+                >> v.owner
+                >> v.type
+                >> v.entry) {
+
+        // Stop if queue is full
+        if (waiting.count >= QSIZE)
+            break;
+
+        // Validate vehicle type
+        if (v.type < 0 || v.type > 2)
+            continue;
+
+        // Check whether vehicle is already parked
+        if (parked.search(v.number) != NULL)
+            continue;
+
+        // Check for duplicate vehicles in the queue
+        bool duplicate = false;
+
+        for (int i = 0; i < waiting.count; i++) {
+            if (waiting.q[i].number == v.number) {
+                duplicate = true;
+                break;
+            }
+        }
+
+        if (!duplicate)
+            waiting.enqueue(v);
+    }
+
+    file.close();
+}
+
+
+// ==========================================
+// FILE HANDLING: LOAD PARKING HISTORY
+// ==========================================
+
+void loadHistory() {
+    ifstream file("history.txt");
+
+    if (!file)
+        return;
+
+    History h;
+
+    while (historyCount < MAX &&
+           file >> h.number
+                >> h.fee
+                >> h.duration) {
+
+        history[historyCount] = h;
+        historyCount++;
+    }
+
+    file.close();
+}
