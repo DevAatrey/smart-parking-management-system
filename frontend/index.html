@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>SmartPark | Parking Management</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/ui.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home"><span class="brand-mark">P</span> SmartPark</a>
+    <nav aria-label="Main navigation">
+      <a href="#features">Features</a><a href="#dashboard">Dashboard</a><a href="#manage">Manage parking</a>
+    </nav>
+    <a class="button button-small" href="#manage">Get started</a>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">SMART PARKING MANAGEMENT SYSTEM</p>
+        <h1>Parking made <span>simple.</span></h1>
+        <p>Manage parking spaces, track vehicles and calculate parking fees from one clear dashboard.</p>
+        <a class="button" href="#dashboard">View dashboard <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="hero-panel" aria-label="Parking overview">
+        <div class="panel-top"><span class="live-dot"></span> LIVE PARKING OVERVIEW <span class="panel-label">SMARTPARK</span></div>
+        <div class="hero-stats">
+          <div><strong id="hero-available">10</strong><span>Available</span></div>
+          <div><strong id="hero-occupied">0</strong><span>Occupied</span></div>
+          <div><strong id="hero-queued">0</strong><span>Waiting</span></div>
+        </div>
+        <div class="mini-parking" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-heading"><p class="eyebrow">WHAT SMARTPARK DOES</p><h2>Everything in one place</h2></div>
+      <div class="feature-grid">
+        <article class="feature-card"><span class="feature-icon">▦</span><h3>Slot management</h3><p>See available and occupied parking spaces at a glance.</p></article>
+        <article class="feature-card"><span class="feature-icon">↔</span><h3>Vehicle tracking</h3><p>Record vehicle entry and exit with registration details.</p></article>
+        <article class="feature-card"><span class="feature-icon">₹</span><h3>Clear billing</h3><p>Calculate parking charges using vehicle type and duration.</p></article>
+      </div>
+    </section>
+
+    <section class="section dashboard-section" id="dashboard">
+      <div class="section-heading section-heading-row"><div><p class="eyebrow">AT A GLANCE</p><h2>Parking dashboard</h2></div><span class="status-pill"><span class="live-dot"></span> System active</span></div>
+      <div class="stats-grid">
+        <article class="stat-card"><span>Normal slots</span><strong id="stat-normal">10</strong><small id="normal-caption">10 available</small></article>
+        <article class="stat-card"><span>Occupied slots</span><strong id="stat-occupied">0</strong><small>Vehicles currently parked</small></article>
+        <article class="stat-card"><span>Emergency slots</span><strong id="stat-emergency">5</strong><small id="emergency-caption">5 available</small></article>
+        <article class="stat-card"><span>Waiting queue</span><strong id="stat-queue">0</strong><small>Vehicles waiting</small></article>
+      </div>
+      <div class="parking-layout">
+        <article class="content-card">
+          <div class="card-heading"><div><h3>Normal parking</h3><p>10 standard spaces</p></div><span class="legend"><i class="available-key"></i> Available <i class="occupied-key"></i> Occupied</span></div>
+          <div class="slot-grid" id="normal-slots" aria-live="polite"></div>
+        </article>
+        <article class="content-card">
+          <div class="card-heading"><div><h3>Emergency parking</h3><p>5 reserved spaces</p></div></div>
+          <div class="slot-grid emergency-grid" id="emergency-slots" aria-live="polite"></div>
+          <p class="hint">Emergency spaces are reserved for emergency vehicles.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section manage-section" id="manage">
+      <div class="section-heading"><p class="eyebrow">PARKING OPERATIONS</p><h2>Manage vehicles</h2></div>
+      <div class="forms-grid">
+        <form class="content-card form-card" id="entry-form">
+          <div class="card-heading"><div><h3>Vehicle entry</h3><p>Register a vehicle entering the parking area.</p></div><span class="form-symbol entry-symbol">＋</span></div>
+          <label for="entry-number">Registration number</label><input id="entry-number" name="registration" placeholder="e.g. UK07AB1234" maxlength="15" required>
+          <label for="entry-type">Vehicle type</label><select id="entry-type" name="type"><option value="Bike">Bike</option><option value="Car">Car</option><option value="SUV">SUV</option><option value="Emergency">Emergency</option></select>
+          <button class="button full-width" type="submit">Register entry</button>
+          <p class="form-message" id="entry-message" role="status"></p>
+        </form>
+        <form class="content-card form-card" id="exit-form">
+          <div class="card-heading"><div><h3>Vehicle exit</h3><p>Release a space when a vehicle leaves.</p></div><span class="form-symbol exit-symbol">↗</span></div>
+          <label for="exit-number">Registration number</label><input id="exit-number" name="registration" placeholder="Enter registered number" maxlength="15" required>
+          <div class="bill-preview" id="bill-preview"><span>Estimated parking charge</span><strong id="bill-amount">—</strong></div>
+          <button class="button button-dark full-width" type="submit">Register exit</button>
+          <p class="form-message" id="exit-message" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section lower-grid">
+      <article class="content-card">
+        <div class="card-heading"><div><h3>Waiting queue</h3><p>Vehicles waiting for a normal slot.</p></div><span class="count-badge" id="queue-count">0</span></div>
+        <div id="queue-list" class="empty-state">No vehicles in the queue.</div>
+      </article>
+      <article class="content-card">
+        <div class="card-heading"><div><h3>Parking history</h3><p>Recently completed parking sessions.</p></div></div>
+        <input id="history-search" class="search-input" type="search" placeholder="Search registration number">
+        <div class="table-wrap"><table><thead><tr><th>Vehicle</th><th>Type</th><th>Duration</th><th>Fee</th></tr></thead><tbody id="history-body"><tr><td colspan="4" class="empty-state">No parking history yet.</td></tr></tbody></table></div>
+      </article>
+    </section>
+  </main>
+  <footer><a class="brand" href="#home"><span class="brand-mark">P</span> SmartPark</a><span>Smart parking management system · PBL Project</span></footer>
+</body>
+</html>
