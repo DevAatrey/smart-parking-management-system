@@ -1,0 +1,16 @@
+void sortHistory() {
+    for (int i = 0; i < historyCount - 1; i++) {
+        for (int j = 0; j < historyCount - i - 1; j++) {
+            if (history[j].fee > history[j + 1].fee) {
+                History temp = history[j];
+                history[j] = history[j + 1];
+                history[j + 1] = temp;
+            }
+        }
+    }
+
+    saveHistory();
+
+    cout << "History sorted by fee (ascending).\n";
+    showHistory();
+}
