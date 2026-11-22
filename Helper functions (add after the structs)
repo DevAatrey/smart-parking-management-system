@@ -1,0 +1,15 @@
+bool isEmergencySlot(int slot) {
+    return slot >= NORMAL_SLOTS;
+}
+
+bool canUseSlot(int type, int slot) {
+    if (isEmergencySlot(slot))
+        return type == EMERGENCY;
+    return true;
+}
+
+string slotName(int slot) {
+    if (isEmergencySlot(slot))
+        return "E" + to_string(slot - NORMAL_SLOTS + 1);
+    return to_string(slot + 1);
+}
