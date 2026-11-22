@@ -1,0 +1,17 @@
+void saveWaitingQueue() {
+    ofstream file("waiting.txt");
+
+    if (!file) {
+        cout << "Error saving waiting queue!\n";
+        return;
+    }
+
+    for (int i = 0; i < waiting.count; i++) {
+        file << waiting.q[i].number << " "
+             << waiting.q[i].owner << " "
+             << waiting.q[i].type << " "
+             << waiting.q[i].entry << endl;
+    }
+
+    file.close();
+}
