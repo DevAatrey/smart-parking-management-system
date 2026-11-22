@@ -1,0 +1,7 @@
+Vehicle dequeueAt(int index) {
+    Vehicle v = q[index];
+    for (int i = index; i < count - 1; i++)
+        q[i] = q[i + 1];
+    count--;
+    return v;
+}
