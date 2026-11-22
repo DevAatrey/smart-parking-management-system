@@ -1,0 +1,39 @@
+void loadWaitingQueue() {
+    ifstream file("waiting.txt");
+
+    if (!file)
+        return;
+
+    Vehicle v;
+    v.slot = -1;
+
+    while (file >> v.number
+                >> v.owner
+                >> v.type
+                >> v.entry) {
+
+        if (waiting.count >= QSIZE)
+            break;
+
+        if (v.type < 0 || v.type > EMERGENCY)
+            continue;
+
+        // Prevent duplicate vehicles
+        if (parked.search(v.number) != NULL)
+            continue;
+
+        bool duplicate = false;
+
+        for (int i = 0; i < waiting.count; i++) {
+            if (waiting.q[i].number == v.number) {
+                duplicate = true;
+                break;
+            }
+        }
+
+        if (!duplicate)
+            waiting.enqueue(v);
+    }
+
+    file.close();
+}
