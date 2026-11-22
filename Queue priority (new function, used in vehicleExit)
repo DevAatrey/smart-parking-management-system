@@ -1,0 +1,10 @@
+int pickWaitingVehicle(int slot) {
+    for (int i = 0; i < waiting.count; i++)
+        if (waiting.q[i].type == EMERGENCY)
+            return i;
+
+    if (isEmergencySlot(slot))
+        return -1;
+
+    return (waiting.count > 0) ? 0 : -1;
+}
