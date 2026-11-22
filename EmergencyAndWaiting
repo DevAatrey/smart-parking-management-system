@@ -1,0 +1,17 @@
+int pickWaitingVehicle(int slot) {
+    // Emergency vehicles get priority
+    for (int i = 0; i < waiting.count; i++) {
+        if (waiting.q[i].type == EMERGENCY)
+            return i;
+    }
+
+    // Emergency slots are only for emergency vehicles
+    if (isEmergencySlot(slot))
+        return -1;
+
+    // Normal slot: first vehicle in the queue
+    if (waiting.count > 0)
+        return 0;
+
+    return -1;
+}
