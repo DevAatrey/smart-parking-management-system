@@ -1,0 +1,7 @@
+const int NORMAL_SLOTS = 10;
+const int EMERGENCY_SLOTS = 5;
+const int SLOTS = NORMAL_SLOTS + EMERGENCY_SLOTS;  // replaces: const int SLOTS = 10;
+const int EMERGENCY = 3;
+
+string typeName[4] = {"Bike", "Car", "SUV", "Emergency"};
+int rate[4] = {10, 20, 30, 0};
