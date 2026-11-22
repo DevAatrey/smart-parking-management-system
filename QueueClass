@@ -1,0 +1,50 @@
+class Queue {
+public:
+    Vehicle q[QSIZE];
+    int count;
+
+    Queue() {
+        count = 0;
+    }
+
+    void enqueue(Vehicle v) {
+        if (count == QSIZE) {
+            cout << "Waiting queue is full!\n";
+            return;
+        }
+
+        q[count] = v;
+        count++;
+    }
+
+    // Remove the vehicle at position index (0 = front)
+    Vehicle dequeueAt(int index) {
+        Vehicle v = q[index];
+
+        for (int i = index; i < count - 1; i++)
+            q[i] = q[i + 1];
+
+        count--;
+        return v;
+    }
+
+    Vehicle dequeue() {
+        return dequeueAt(0);
+    }
+
+    void display() {
+        if (count == 0) {
+            cout << "No vehicles waiting.\n";
+            return;
+        }
+
+        for (int i = 0; i < count; i++) {
+            cout << q[i].number;
+            if (q[i].type == EMERGENCY)
+                cout << " (Emergency)";
+            cout << "  ";
+        }
+
+        cout << endl;
+    }
+};
